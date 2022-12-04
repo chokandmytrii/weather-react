@@ -349,28 +349,6 @@ section {
   align-items: center;
 }
 
-@media screen and (max-width: 768px) {
-  .header__video {
-    object-fit: none;
-  }
-
-  .daily__element {
-    width: 90%;
-  }
-
-  .hourly__code {
-    flex-direction: column;
-  }
-
-  .hourly__icon {
-    margin-right: 0;
-  }
-
-  .hourly__description {
-    padding-right: 12px;
-  }
-}
-
 .hourly__info {
   text-align: center;
   font-size: 20px;
@@ -518,4 +496,26 @@ section {
 
 .footer__link {
   text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .header__video {
+    object-fit: none;
+  }
+
+  .daily__element {
+    width: 90%;
+  }
+
+  .hourly__code {
+    flex-direction: column;
+  }
+
+  .hourly__icon {
+    margin-right: 0;
+  }
+
+  .hourly__description {
+    padding-right: 12px;
+  }
 }
