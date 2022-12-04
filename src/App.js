@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
+import Night from "./video/Night.mp4";
+import Sun from "./video/Sunny.mp4";
+import Clouds from "./video/Clouds.mp4";
+import Rain from "./video/Rain.mp4";
+import Snow from "./video/Snow.mp4";
+import Fog from "./video/Fog.mp4";
+import Thunderstorm from "./video/Thunderstorm.mp4";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 import { WiDaySunny } from "react-icons/wi";
@@ -21,12 +28,19 @@ import { WiDayRainMix } from "react-icons/wi";
 import { WiNightRainMix } from "react-icons/wi";
 import { WiThunderstorm } from "react-icons/wi";
 import { WiSnowflakeCold } from "react-icons/wi";
+import { HiOutlineChevronDoubleDown } from "react-icons/hi";
+import { HiOutlineX } from "react-icons/hi";
 
 function App() {
   const [dailyArr, addDailyInfo] = useState([]);
   const [hourlyArr, addHourlyInfo] = useState([]);
   const [city, changeCity] = useState("Budapest");
   const [status, changeStatus] = useState(false);
+  const [background, changeBackground] = useState(Night);
+  const [quantity, setQuantity] = useState(12);
+  const [countingIcon, changeIcon] = useState(
+    <HiOutlineChevronDoubleDown className={"btn__svg"} />
+  );
 
   const fetchCoordinates = async () => {
     let cityData = JSON.parse(localStorage.getItem("cities"));
@@ -58,7 +72,7 @@ function App() {
   const fetchMeteo = async () => {
     const coordData = await fetchCoordinates();
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${coordData.lat}&longitude=${coordData.lon}&hourly=temperature_2m,relativehumidity_2m,precipitation,weathercode,surface_pressure,cloudcover,windspeed_10m&daily=weathercode,temperature_2m_max,sunrise,sunset&timezone=Europe%2FLondon`
+      `https://api.open-meteo.com/v1/forecast?latitude=${coordData.lat}&longitude=${coordData.lon}&hourly=temperature_2m,relativehumidity_2m,precipitation,weathercode,surface_pressure,windspeed_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=Europe%2FLondon`
     );
     const dataObj = await res.json();
     return dataObj;
@@ -66,11 +80,9 @@ function App() {
 
   const dailyWeather = async () => {
     let now = new Date();
-    let monthToday = now.getMonth();
-    let dayToday = now.getDate();
     let hrToday = now.getHours();
-    let minuteToday = now.getMinutes();
-    console.log(dayToday, hrToday, minuteToday);
+
+    console.log(hrToday);
     let hourNow;
     if (String(hrToday).length === 1) {
       hourNow = `0${hrToday}:00`;
@@ -93,62 +105,79 @@ function App() {
     const sunset = sunsets.map((element) => `${+element.slice(0, 2) + 1}:00`);
     const date = dailyData.time;
     const dailyTemperature = dailyData.temperature_2m_max;
+    const dailyMinTemperature = dailyData.temperature_2m_min;
     const dailyCode = dailyData.weathercode;
 
     for (let i = 0; i < 7; i++) {
       let newDailyCode;
+      let info;
       if (dailyCode[i] === 0) {
-        newDailyCode = <WiDaySunny size={"50px"} />;
+        newDailyCode = <WiDaySunny className={"daily__svg"} />;
+        info = "Sunny";
       } else if (dailyCode[i] === 1 || dailyCode[i] === 2) {
-        newDailyCode = <WiDayCloudy size={"50px"} />;
+        newDailyCode = <WiDayCloudy className={"daily__svg"} />;
+        info = "Cloudy";
       } else if (dailyCode[i] === 3) {
-        newDailyCode = <WiCloudy size={"50px"} />;
+        newDailyCode = <WiCloudy className={"daily__svg"} />;
+        info = "Overcast";
       } else if (dailyCode[i] === 45 || dailyCode[i] === 48) {
-        newDailyCode = <WiFog size={"50px"} />;
+        newDailyCode = <WiFog className={"daily__svg"} />;
+        info = "Fog";
       } else if (
         dailyCode[i] === 51 ||
         dailyCode[i] === 53 ||
         dailyCode[i] === 55
       ) {
-        newDailyCode = <WiDayShowers size={"50px"} />;
+        newDailyCode = <WiDayShowers className={"daily__svg"} />;
+        info = "Drizzle";
       } else if (dailyCode[i] === 56 || dailyCode[i] === 57) {
-        newDailyCode = <WiDaySleet size={"50px"} />;
+        newDailyCode = <WiDaySleet className={"daily__svg"} />;
+        info = "Freezing Drizzle";
       } else if (
         dailyCode[i] === 61 ||
         dailyCode[i] === 63 ||
         dailyCode[i] === 65
       ) {
-        newDailyCode = <WiRain size={"50px"} />;
+        newDailyCode = <WiRain className={"daily__svg"} />;
+        info = "Rain";
       } else if (dailyCode[i] === 66 || dailyCode[i] === 67) {
-        newDailyCode = <WiSleet size={"50px"} />;
+        newDailyCode = <WiSleet className={"daily__svg"} />;
+        info = "Freezing Rain";
       } else if (
         dailyCode[i] === 71 ||
         dailyCode[i] === 73 ||
         dailyCode[i] === 75
       ) {
-        newDailyCode = <WiSnow size={"50px"} />;
+        newDailyCode = <WiSnow className={"daily__svg"} />;
+        info = "Snow Fall";
       } else if (dailyCode[i] === 77) {
-        newDailyCode = <WiSnowflakeCold size={"50px"} />;
+        newDailyCode = <WiSnowflakeCold className={"daily__svg"} />;
+        info = "Snow Grains";
       } else if (
         dailyCode[i] === 80 ||
         dailyCode[i] === 81 ||
         dailyCode[i] === 82
       ) {
-        newDailyCode = <WiDayRain size={"50px"} />;
+        newDailyCode = <WiDayRain className={"daily__svg"} />;
+        info = "Rain Showers";
       } else if (dailyCode[i] === 85 || dailyCode[i] === 86) {
-        newDailyCode = <WiDayRainMix size={"50px"} />;
+        newDailyCode = <WiDayRainMix className={"daily__svg"} />;
+        info = "Snow Showers";
       } else if (
         dailyCode[i] === 95 ||
         dailyCode[i] === 96 ||
         dailyCode[i] === 99
       ) {
-        newDailyCode = <WiThunderstorm size={"50px"} />;
+        newDailyCode = <WiThunderstorm className={"daily__svg"} />;
+        info = "Thunderstorm";
       }
 
       const element = new DailyUnit(
         date[i],
         Math.round(dailyTemperature[i]),
-        newDailyCode
+        Math.round(dailyMinTemperature[i]),
+        newDailyCode,
+        info
       );
       dailyResult.push(element);
     }
@@ -158,8 +187,8 @@ function App() {
     const time = hourlyData.time;
     const timeCut = time.map((element) => element.slice(11));
     const startIndex = timeCut.findIndex((element) => element === hourNow);
+    timeCut[startIndex] = "Now";
     const hourlyTemperature = hourlyData.temperature_2m;
-    const cloud = hourlyData.cloudcover;
     const pressure = hourlyData.surface_pressure;
     const humidity = hourlyData.relativehumidity_2m;
     const wind = hourlyData.windspeed_10m;
@@ -175,6 +204,21 @@ function App() {
       day = false;
     }
 
+    const headerBlock = document.querySelector(".header");
+    const wrapperBlock = document.querySelector(".wrapper");
+    const mainBlock = document.querySelector(".main");
+    const appBlock = document.querySelector(".App");
+    if (day !== true) {
+      clearClasses(wrapperBlock);
+      clearClasses(headerBlock);
+      addClass(appBlock, "night");
+      addClass(mainBlock, "night-light");
+    } else {
+      clearClasses(wrapperBlock);
+      clearClasses(headerBlock);
+      clearClasses(mainBlock);
+    }
+
     let changingTime;
     let secChangingTime;
     if (day) {
@@ -187,6 +231,7 @@ function App() {
 
     for (let i = startIndex; i < startIndex + 24; i++) {
       let newHourlyCode;
+      let info;
 
       if (timeCut[i] === changingTime) {
         day = !day;
@@ -198,104 +243,183 @@ function App() {
 
       if (hourlyCode[i] === 0) {
         if (day) {
-          newHourlyCode = <WiDaySunny size={"40px"} />;
+          newHourlyCode = <WiDaySunny className={"hourly__svg"} />;
         } else {
-          newHourlyCode = <WiNightClear size={"40px"} />;
+          newHourlyCode = <WiNightClear className={"hourly__svg"} />;
         }
+        info = "Clear Sky";
       } else if (hourlyCode[i] === 1 || hourlyCode[i] === 2) {
         if (day) {
-          newHourlyCode = <WiDayCloudy size={"40px"} />;
+          newHourlyCode = <WiDayCloudy className={"hourly__svg"} />;
         } else {
-          newHourlyCode = <WiNightCloudy size={"40px"} />;
+          newHourlyCode = <WiNightCloudy className={"hourly__svg"} />;
         }
+        info = "Cloudy";
       } else if (hourlyCode[i] === 3) {
-        newHourlyCode = <WiCloudy size={"40px"} />;
+        newHourlyCode = <WiCloudy className={"hourly__svg"} />;
+        info = "Overcast";
       } else if (hourlyCode[i] === 45 || hourlyCode[i] === 48) {
-        newHourlyCode = <WiFog size={"40px"} />;
+        newHourlyCode = <WiFog className={"hourly__svg"} />;
+        info = "Fog";
       } else if (
         hourlyCode[i] === 51 ||
         hourlyCode[i] === 53 ||
         hourlyCode[i] === 55
       ) {
         if (day) {
-          newHourlyCode = <WiDayShowers size={"40px"} />;
+          newHourlyCode = <WiDayShowers className={"hourly__svg"} />;
         } else {
-          newHourlyCode = <WiNightShowers size={"40px"} />;
+          newHourlyCode = <WiNightShowers className={"hourly__svg"} />;
         }
+        info = "Drizzle";
       } else if (hourlyCode[i] === 56 || hourlyCode[i] === 57) {
         if (day) {
-          newHourlyCode = <WiDaySleet size={"40px"} />;
+          newHourlyCode = <WiDaySleet className={"hourly__svg"} />;
         } else {
-          newHourlyCode = <WiNightSleet size={"40px"} />;
+          newHourlyCode = <WiNightSleet className={"hourly__svg"} />;
         }
+        info = "Freezing Drizzle";
       } else if (
         hourlyCode[i] === 61 ||
         hourlyCode[i] === 63 ||
         hourlyCode[i] === 65
       ) {
-        newHourlyCode = <WiRain size={"40px"} />;
+        newHourlyCode = <WiRain className={"hourly__svg"} />;
+        info = "Rain";
       } else if (hourlyCode[i] === 66 || hourlyCode[i] === 67) {
-        newHourlyCode = <WiSleet size={"40px"} />;
+        newHourlyCode = <WiSleet className={"hourly__svg"} />;
+        info = "Freezing Rain";
       } else if (
         hourlyCode[i] === 71 ||
         hourlyCode[i] === 73 ||
         hourlyCode[i] === 75
       ) {
-        newHourlyCode = <WiSnow size={"40px"} />;
+        newHourlyCode = <WiSnow className={"hourly__svg"} />;
+        info = "Snow";
       } else if (hourlyCode[i] === 77) {
-        newHourlyCode = <WiSnowflakeCold size={"40px"} />;
+        newHourlyCode = <WiSnowflakeCold className={"hourly__svg"} />;
+        info = "Snow Flakes";
       } else if (
         hourlyCode[i] === 80 ||
         hourlyCode[i] === 81 ||
         hourlyCode[i] === 82
       ) {
         if (day) {
-          newHourlyCode = <WiDayRain size={"40px"} />;
+          newHourlyCode = <WiDayRain className={"hourly__svg"} />;
         } else {
-          newHourlyCode = <WiNightRain size={"40px"} />;
+          newHourlyCode = <WiNightRain className={"hourly__svg"} />;
         }
+        info = "Rain Showers";
       } else if (hourlyCode[i] === 85 || hourlyCode[i] === 86) {
         if (day) {
-          newHourlyCode = <WiDayRainMix size={"40px"} />;
+          newHourlyCode = <WiDayRainMix className={"hourly__svg"} />;
         } else {
-          newHourlyCode = <WiNightRainMix size={"40px"} />;
+          newHourlyCode = <WiNightRainMix className={"hourly__svg"} />;
         }
+        info = "Snow Showers";
       } else if (
         hourlyCode[i] === 95 ||
         hourlyCode[i] === 96 ||
         hourlyCode[i] === 99
       ) {
-        newHourlyCode = <WiThunderstorm size={"40px"} />;
+        newHourlyCode = <WiThunderstorm className={"hourly__svg"} />;
+        info = "Thunderstorm";
       }
 
       const element = new HourlyUnit(
         timeCut[i],
         Math.round(hourlyTemperature[i]),
-        cloud[i],
         Math.round(pressure[i]),
         humidity[i],
         Math.round(wind[i]),
-        newHourlyCode
+        newHourlyCode,
+        info
       );
       hourlyResult.push(element);
     }
+    if (
+      hourlyResult[0].info === "Clear Sky" ||
+      hourlyResult[0].info === "Cloudy"
+    ) {
+      if (day) {
+        changeBackground(Sun);
+        clearClasses(wrapperBlock);
+      } else {
+        changeBackground(Night);
+        clearClasses(wrapperBlock);
+      }
+    } else if (hourlyResult[0].info === "Overcast") {
+      changeBackground(Clouds);
+      addClass(headerBlock, "night-light");
+      clearClasses(wrapperBlock);
+      addClass(wrapperBlock, "cloud");
+    } else if (hourlyResult[0].info === "Fog") {
+      changeBackground(Fog);
+      addClass(headerBlock, "night-light");
+      clearClasses(wrapperBlock);
+      addClass(wrapperBlock, "cloud");
+    } else if (
+      hourlyResult[0].info === "Drizzle" ||
+      hourlyResult[0].info === "Freezing Drizzle" ||
+      hourlyResult[0].info === "Rain" ||
+      hourlyResult[0].info === "Freezing Rain" ||
+      hourlyResult[0].info === "Rain Showers"
+    ) {
+      changeBackground(Rain);
+      clearClasses(wrapperBlock);
+    } else if (
+      hourlyResult[0].info === "Snow Showers" ||
+      hourlyResult[0].info === "Snow" ||
+      hourlyResult[0].info === "Snow Flakes"
+    ) {
+      changeBackground(Snow);
+      clearClasses(wrapperBlock);
+      addClass(wrapperBlock, "snow");
+    } else if (hourlyResult[0].info === "Thunderstorm") {
+      changeBackground(Thunderstorm);
+      clearClasses(wrapperBlock);
+    }
     addHourlyInfo(hourlyResult.slice());
+
+    return day;
+  };
+
+  const showMoreInfo = () => {
+    const popup = document.querySelector(".popup");
+    if (quantity === 24) {
+      changeIcon(<HiOutlineX className={"btn__svg"} />);
+      popup.classList.add("popup-active");
+    } else {
+      setQuantity((prevValue) => prevValue + 6);
+    }
+  };
+
+  const closePopup = (event) => {
+    const popup = document.querySelector(".popup");
+    if (
+      event.target.classList.contains("popup__btn") ||
+      event.target.classList.contains("popup__svg") ||
+      event.target.hasAttribute("d") ||
+      event.target.classList.contains("popup__close")
+    ) {
+      popup.classList.remove("popup-active");
+    }
   };
 
   class HourlyUnit {
-    constructor(time, temperature, cloud, pressure, humidity, wind, code) {
+    constructor(time, temperature, pressure, humidity, wind, code, info) {
       this.time = time;
       this.temperature = temperature;
-      this.cloud = cloud;
       this.pressure = pressure;
       this.humidity = humidity;
       this.wind = wind;
       this.code = code;
+      this.info = info;
     }
   }
 
   useEffect(() => {
-    const loader = () => {
+    const loader = async () => {
       if (!status) {
         fetchCoordinates();
         fetchMeteo();
@@ -315,22 +439,43 @@ function App() {
   }
 
   class DailyUnit {
-    constructor(date, temperature, code) {
+    constructor(date, temperature, minTemperature, code, shortInfo) {
       this.date = date;
       this.temperature = temperature;
+      this.minTemperature = minTemperature;
       this.code = code;
+      this.shortInfo = shortInfo;
+    }
+  }
+
+  function addClass(block, classValue) {
+    block.classList.add(classValue);
+  }
+
+  function clearClasses(block) {
+    if (block.classList.length > 1) {
+      block.classList.remove(block.classList[1]);
     }
   }
 
   function chooseCity(event) {
     changeCity(event.target.value);
     changeStatus(false);
+    setQuantity(12);
+    changeIcon(<HiOutlineChevronDoubleDown className={"btn__svg"} />);
   }
 
   return (
     <div className="App">
-      <Header city={city} changeCity={chooseCity} />
-      <Main data={dailyArr} data2={hourlyArr} />
+      <Header city={city} changeCity={chooseCity} background={background} />
+      <Main
+        data={dailyArr}
+        data2={hourlyArr}
+        quantity={quantity}
+        show={showMoreInfo}
+        icon={countingIcon}
+        close={closePopup}
+      />
       <Footer />
     </div>
   );

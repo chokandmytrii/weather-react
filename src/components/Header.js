@@ -34,16 +34,24 @@ const cities = [
   "Bratislava",
 ];
 
-const Header = ({ city, changeCity }) => {
+const Header = ({ city, changeCity, background }) => {
   return (
     <header className="header">
-      <div className="header__element city">
+      <video
+        src={background}
+        autoPlay
+        muted
+        loop
+        className="header__video video"
+      ></video>{" "}
+      <h1 className="header__title">Europe Weather Forecast</h1>
+      <div className="header__city city">
         <p className="city__pointer"> Current city </p>{" "}
         <h2 className="city__name"> {city} </h2>{" "}
       </div>{" "}
-      <form className="header__element form">
-        <label className="label">
-          <h3 className="label__title"> Please select city </h3>{" "}
+      <form className="header__form form">
+        <h3 className="label__title"> Please select city </h3>{" "}
+        <label className="form__label label">
           <select onChange={changeCity} className="select">
             {" "}
             {cities.map((element) => (
