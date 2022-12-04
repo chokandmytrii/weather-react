@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/chokandmytrii/weather-react/static/css/main.16cd1d61.css",
+    "main.js": "/chokandmytrii/weather-react/static/js/main.3af48749.js",
+    "static/js/787.13d76ca7.chunk.js": "/chokandmytrii/weather-react/static/js/787.13d76ca7.chunk.js",
+    "static/media/Clouds.mp4": "/chokandmytrii/weather-react/static/media/Clouds.c08911632381358bef24.mp4",
+    "static/media/Rain.mp4": "/chokandmytrii/weather-react/static/media/Rain.750168d2a425cdca903b.mp4",
+    "static/media/Night.mp4": "/chokandmytrii/weather-react/static/media/Night.8887329608a3258a9ef4.mp4",
+    "static/media/Snow.mp4": "/chokandmytrii/weather-react/static/media/Snow.46b733c7dd06aff0f4c5.mp4",
+    "static/media/Thunderstorm.mp4": "/chokandmytrii/weather-react/static/media/Thunderstorm.ea41e2c13ef44a10cb66.mp4",
+    "static/media/Fog.mp4": "/chokandmytrii/weather-react/static/media/Fog.4fac67bc5b7f3ddbf1d2.mp4",
+    "static/media/Sunny.mp4": "/chokandmytrii/weather-react/static/media/Sunny.b03874c4a5d05edd635c.mp4",
+    "index.html": "/chokandmytrii/weather-react/index.html",
+    "main.16cd1d61.css.map": "/chokandmytrii/weather-react/static/css/main.16cd1d61.css.map",
+    "main.3af48749.js.map": "/chokandmytrii/weather-react/static/js/main.3af48749.js.map",
+    "787.13d76ca7.chunk.js.map": "/chokandmytrii/weather-react/static/js/787.13d76ca7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.16cd1d61.css",
+    "static/js/main.3af48749.js"
+  ]
+}
