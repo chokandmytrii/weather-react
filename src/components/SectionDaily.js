@@ -3,8 +3,7 @@ import ReactElasticCarousel from "react-elastic-carousel";
 
 const SectionDaily = ({ data }) => {
   const breakPoints = [
-    { width: 300, itemsToShow: 2, itemsToScroll: 1 },
-    { width: 480, itemsToShow: 3, itemsToScroll: 1 },
+    { width: 420, itemsToShow: 3, itemsToScroll: 1 },
     { width: 680, itemsToShow: 4, itemsToScroll: 1 },
     { width: 900, itemsToShow: 5, itemsToScroll: 1 },
   ];

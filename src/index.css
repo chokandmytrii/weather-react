@@ -127,7 +127,7 @@ section {
 
 .header {
   text-align: center;
-  font-size: 20px;
+  font-size: 1.25em;
   padding: 25px 0;
   position: relative;
   z-index: 10;
@@ -140,11 +140,11 @@ section {
   background-color: #b4b5a4;
 }
 
-.header__title {
-  font-size: 30px;
+.city {
   margin-bottom: 30px;
 }
 
+.header__title,
 .form {
   margin-bottom: 20px;
 }
@@ -157,14 +157,13 @@ section {
 }
 
 .city__name {
-  font-size: 30px;
+  font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
 .city__pointer {
   margin-bottom: 10px;
-  font-style: italic;
 }
 
 .label__title {
@@ -175,7 +174,7 @@ section {
   padding: 5px 10px;
   border-radius: 10px;
   box-shadow: 0 0 2px white;
-  font-size: 16px;
+  font-size: 0.8em;
   background-color: transparent;
   color: inherit;
   outline: 0;
@@ -186,6 +185,21 @@ section {
 .select__option {
   background-color: dimgray;
   color: black;
+}
+
+.header__video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+  object-fit: cover;
+}
+
+.night-light .header__video {
+  opacity: 0.2;
 }
 
 .main {
@@ -213,23 +227,6 @@ section {
   background: linear-gradient(180deg, rgba(38, 38, 38, 1) 10%, rgba(49, 51, 57, 1) 90%);
 }
 
-.header__video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  opacity: 0.3;
-  object-fit: cover;
-}
-
-.night-light .header__video {
-  opacity: 0.2;
-}
-
-.night-light {}
-
 .night-light .cloud {
   background: linear-gradient(180deg, rgba(47, 46, 46, 1) 10%, rgba(49, 51, 57, 1) 90%);
 }
@@ -246,16 +243,12 @@ section {
   background: linear-gradient(180deg, rgba(126, 128, 125, 1) 10%, rgba(180, 181, 164, 1) 90%);
 }
 
-.video__background {}
-
-
 .night {
   color: white;
 }
 
 .night .header {
-  background-color: black;
-  opacity: 0.85;
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 0;
   border-bottom: 2px solid #2F2E2E;
 }
@@ -267,10 +260,10 @@ section {
 }
 
 .section__title {
-  font-size: 20px;
   text-align: center;
   margin-bottom: 30px;
   font-weight: bold;
+  font-size: 1.25em;
 }
 
 .daily {
@@ -302,11 +295,6 @@ section {
   font-weight: bold;
   border: 3px solid dimgray;
   border-radius: 35px;
-  margin-right: 10px;
-}
-
-.daily__element:last-of-type {
-  margin-right: 0;
 }
 
 .daily__element:hover {
@@ -315,7 +303,7 @@ section {
 }
 
 .daily__date {
-  font-size: 20px;
+  font-size: 1.2em;
 }
 
 .daily__info {
@@ -330,7 +318,6 @@ section {
   flex-wrap: wrap;
   flex-direction: column;
   font-weight: 300;
-  font-size: 18px;
   padding: 0 10px;
 }
 
@@ -351,17 +338,14 @@ section {
 
 .hourly__info {
   text-align: center;
-  font-size: 20px;
+  font-size: 1.2em;
 }
 
 .hourly__icon {
   margin-right: 10px;
 }
 
-.hourly__description {
-  font-weight: bold;
-}
-
+.hourly__description,
 .hourly__time,
 .hourly__temperature {
   font-weight: bold;
@@ -440,7 +424,7 @@ section {
 }
 
 .popup__title {
-  font-size: 18px;
+  font-size: 1.1em;
   font-weight: bold;
 }
 
@@ -477,7 +461,6 @@ section {
   align-items: center;
   padding: 25px 0;
   border-top: 2px solid grey;
-  font-size: 18px;
 }
 
 .footer__part {
@@ -499,12 +482,27 @@ section {
 }
 
 @media screen and (max-width: 768px) {
+  .App {
+    font-size: 13px;
+  }
+
   .header__video {
     object-fit: none;
   }
 
   .daily__element {
-    width: 90%;
+    max-width: 140px;
+    border-radius: 25px;
+  }
+
+  .daily__svg {
+    height: 45px;
+    width: 45px;
+  }
+
+  .hourly__svg {
+    width: 60px;
+    height: 60px;
   }
 
   .hourly__code {
@@ -516,6 +514,44 @@ section {
   }
 
   .hourly__description {
-    padding-right: 12px;
+    padding-right: 10px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .App {
+    font-size: 10px;
+  }
+
+  .rec.rec-swipable {
+    align-items: stretch;
+  }
+
+  .rec.rec-carousel-item {
+    display: flex;
+  }
+
+  .daily__element {
+    max-width: 100px;
+    font-size: 0.9em;
+    padding: 8px 5px;
+  }
+
+  .daily__svg {
+    height: 30px;
+    width: 30px;
+  }
+
+  .hourly__svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hourly__description {
+    padding-right: 2px;
+  }
+
+  .popup-wrapper {
+    max-width: 300px;
   }
 }

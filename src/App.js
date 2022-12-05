@@ -44,9 +44,14 @@ function App() {
 
   const fetchCoordinates = async () => {
     let cityData = JSON.parse(localStorage.getItem("cities"));
-    let selectedCity = cityData.find((item) => item.name === city);
+    let selectedCity;
+    if (cityData !== null) {
+      selectedCity = cityData.find((item) => item.name === city);
+    } else {
+      cityData = [];
+    }
 
-    if (selectedCity === undefined) {
+    if (cityData === null || selectedCity === undefined) {
       const options = {
         method: "GET",
         headers: {
