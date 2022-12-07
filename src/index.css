@@ -128,16 +128,16 @@ section {
 .header {
   text-align: center;
   font-size: 1.25em;
-  padding: 25px 0;
+  padding: 30px 0;
   position: relative;
   z-index: 10;
-  border-bottom: 1px solid #7e7e73;
+  border-bottom: 1.5px solid #F0F0FF;
 }
 
 .main,
 .header,
 .footer {
-  background-color: #b4b5a4;
+  background-color: #F0F0FF;
 }
 
 .city {
@@ -183,23 +183,34 @@ section {
 }
 
 .select__option {
-  background-color: dimgray;
+  background-color: #D8D8D8;
   color: black;
 }
 
-.header__video {
+.night .select__option {
+  background-color: dimgray;
+  color: white;
+}
+
+.video-wrapper {
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 100%;
   height: 100%;
   z-index: -1;
-  top: 0;
-  left: 0;
-  opacity: 0.3;
-  object-fit: cover;
+  overflow: hidden;
+  opacity: 0.4;
 }
 
-.night-light .header__video {
-  opacity: 0.2;
+.header__video {
+  display: block;
+  position: relative;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
 }
 
 .main {
@@ -220,43 +231,67 @@ section {
   height: 500px;
   top: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(126, 126, 115, 1) 10%, rgba(180, 181, 164, 1) 90%);
+  background: linear-gradient(180deg, rgba(173, 194, 244, 1) 10%, rgba(240, 240, 255, 1) 90%);
 }
 
-.night-light .wrapper {
-  background: linear-gradient(180deg, rgba(38, 38, 38, 1) 10%, rgba(49, 51, 57, 1) 90%);
+.night .wrapper {
+  background: linear-gradient(180deg, rgba(31, 31, 31, 1) 10%, rgba(49, 51, 57, 1) 90%);
 }
 
-.night-light .cloud {
-  background: linear-gradient(180deg, rgba(47, 46, 46, 1) 10%, rgba(49, 51, 57, 1) 90%);
+.night .cloud {
+  background: linear-gradient(180deg, rgba(56, 56, 56, 1) 10%, rgba(49, 51, 57, 1) 90%);
 }
 
-.night-light .snow {
-  background: linear-gradient(180deg, rgba(38, 40, 47, 1) 10%, rgba(49, 51, 57, 1) 90%);
+.night .fog {
+  background: linear-gradient(180deg, rgba(101, 105, 112, 1) 10%, rgba(49, 51, 57, 1) 90%);
+}
+
+.night .rain {
+  background: linear-gradient(180deg, rgba(58, 75, 78, 1) 10%, rgba(49, 51, 57, 1) 90%);
+  opacity: 0.8;
+}
+
+.night .storm {
+  background: linear-gradient(180deg, rgba(56, 50, 57, 1) 10%, rgba(49, 51, 57, 1) 90%);
+}
+
+.night .snow {
+  background: linear-gradient(180deg, rgba(41, 68, 97, 1) 10%, rgba(49, 51, 57, 1) 90%);
 }
 
 .cloud {
-  background: linear-gradient(180deg, rgba(143, 141, 129, 1) 10%, rgba(180, 181, 164, 1) 90%);
+  background: linear-gradient(180deg, rgba(177, 177, 186, 1) 10%, rgba(240, 240, 255, 1) 90%);
+}
+
+.fog {
+  background: linear-gradient(180deg, rgba(222, 227, 242, 1) 10%, rgba(240, 240, 255, 1) 90%);
+}
+
+.rain {
+  background: linear-gradient(180deg, rgba(180, 195, 206, 1) 10%, rgba(240, 240, 255, 1) 90%);
 }
 
 .snow {
-  background: linear-gradient(180deg, rgba(126, 128, 125, 1) 10%, rgba(180, 181, 164, 1) 90%);
+  background: linear-gradient(180deg, rgba(184, 201, 234, 1) 10%, rgba(240, 240, 255, 1) 90%);
+  opacity: 0.8;
 }
 
-.night {
-  color: white;
+.storm {
+  background: linear-gradient(180deg, rgba(190, 180, 203, 1) 10%, rgba(240, 240, 255, 1) 90%);
 }
 
 .night .header {
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 0;
-  border-bottom: 2px solid #2F2E2E;
+  z-index: 10;
+  border-bottom: 2px solid dimgray;
+  color: white;
 }
 
 .night .main,
 .night .footer {
   background-color: #313339;
   z-index: 0;
+  color: white;
 }
 
 .section__title {
@@ -278,8 +313,13 @@ section {
 
 .rec.rec-arrow:hover:enabled,
 .rec.rec-arrow:focus:enabled {
-  background-color: grey;
+  background-color: #C4C4C4;
   opacity: 1;
+}
+
+.night .rec.rec-arrow:hover:enabled,
+.night .rec.rec-arrow:focus:enabled {
+  background-color: grey;
 }
 
 .daily__svg {
@@ -293,13 +333,17 @@ section {
   max-width: 160px;
   width: 100%;
   font-weight: bold;
-  border: 3px solid dimgray;
+  border: 2.5px solid dimgrey;
   border-radius: 35px;
 }
 
 .daily__element:hover {
-  background-color: #585e5f;
+  background-color: #C4C4C4;
   cursor: pointer;
+}
+
+.night .daily__element:hover {
+  background-color: #585e5f;
 }
 
 .daily__date {
@@ -370,11 +414,21 @@ section {
   margin: 0 auto;
   margin-bottom: 20px;
   border: 2px solid dimgray;
-  color: dimgrey;
+  color: black;
   padding: 10px 20px;
   border-radius: 25px;
-  background-color: whitesmoke;
+  background-color: #D2D2EB;
   cursor: pointer;
+  opacity: 0.6;
+}
+
+.night~.btn-wrapper {
+  background-color: #F0F0FF;
+  color: dimgray;
+}
+
+.btn-wrapper:hover {
+  opacity: 1;
 }
 
 .hourly__btn {
@@ -486,10 +540,6 @@ section {
     font-size: 13px;
   }
 
-  .header__video {
-    object-fit: none;
-  }
-
   .daily__element {
     max-width: 140px;
     border-radius: 25px;
@@ -498,6 +548,10 @@ section {
   .daily__svg {
     height: 45px;
     width: 45px;
+  }
+
+  .hourly {
+    max-width: 500px;
   }
 
   .hourly__svg {
@@ -540,6 +594,10 @@ section {
   .daily__svg {
     height: 30px;
     width: 30px;
+  }
+
+  .hourly {
+    max-width: 300px;
   }
 
   .hourly__svg {

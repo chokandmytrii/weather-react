@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
-import Night from "./video/Night.mp4";
-import Sun from "./video/Sunny.mp4";
-import Clouds from "./video/Clouds.mp4";
-import Rain from "./video/Rain.mp4";
-import Snow from "./video/Snow.mp4";
-import Fog from "./video/Fog.mp4";
-import Thunderstorm from "./video/Thunderstorm.mp4";
+import Night from "./img/Night.jpg";
+import Sun from "./img/Sunny.jpg";
+import Clouds from "./img/Clouds.jpg";
+import Rain from "./img/Rain.jpg";
+import Snow from "./img/Snow.jpg";
+import Fog from "./img/Fog.jpg";
+import Thunderstorm from "./img/Thunderstorm.jpg";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 import { WiDaySunny } from "react-icons/wi";
@@ -192,7 +192,6 @@ function App() {
     const time = hourlyData.time;
     const timeCut = time.map((element) => element.slice(11));
     const startIndex = timeCut.findIndex((element) => element === hourNow);
-    timeCut[startIndex] = "Now";
     const hourlyTemperature = hourlyData.temperature_2m;
     const pressure = hourlyData.surface_pressure;
     const humidity = hourlyData.relativehumidity_2m;
@@ -208,20 +207,31 @@ function App() {
     } else {
       day = false;
     }
+    timeCut[startIndex] = "Now";
 
-    const headerBlock = document.querySelector(".header");
     const wrapperBlock = document.querySelector(".wrapper");
     const mainBlock = document.querySelector(".main");
     const appBlock = document.querySelector(".App");
+    const dailyBlock = document.querySelector(".rec-carousel");
+    const dailyElements = document.querySelector(".rec-swipable");
+    const hourlyBlock = document.querySelector(".hourly");
+    const selectElement = document.querySelector(".label");
     if (day !== true) {
       clearClasses(wrapperBlock);
-      clearClasses(headerBlock);
       addClass(appBlock, "night");
-      addClass(mainBlock, "night-light");
+      addClass(mainBlock, "night");
+      addClass(dailyBlock, "night");
+      addClass(dailyElements, "night");
+      addClass(hourlyBlock, "night");
+      addClass(selectElement, "night");
     } else {
       clearClasses(wrapperBlock);
-      clearClasses(headerBlock);
       clearClasses(mainBlock);
+      clearClasses(appBlock);
+      clearClasses(hourlyBlock);
+      clearClasses(selectElement);
+      deleteNightClass(dailyBlock);
+      deleteNightClass(dailyElements);
     }
 
     let changingTime;
@@ -348,21 +358,18 @@ function App() {
     ) {
       if (day) {
         changeBackground(Sun);
-        clearClasses(wrapperBlock);
       } else {
         changeBackground(Night);
-        clearClasses(wrapperBlock);
       }
+      clearClasses(wrapperBlock);
     } else if (hourlyResult[0].info === "Overcast") {
       changeBackground(Clouds);
-      addClass(headerBlock, "night-light");
       clearClasses(wrapperBlock);
       addClass(wrapperBlock, "cloud");
     } else if (hourlyResult[0].info === "Fog") {
       changeBackground(Fog);
-      addClass(headerBlock, "night-light");
       clearClasses(wrapperBlock);
-      addClass(wrapperBlock, "cloud");
+      addClass(wrapperBlock, "fog");
     } else if (
       hourlyResult[0].info === "Drizzle" ||
       hourlyResult[0].info === "Freezing Drizzle" ||
@@ -372,6 +379,7 @@ function App() {
     ) {
       changeBackground(Rain);
       clearClasses(wrapperBlock);
+      addClass(wrapperBlock, "rain");
     } else if (
       hourlyResult[0].info === "Snow Showers" ||
       hourlyResult[0].info === "Snow" ||
@@ -383,6 +391,7 @@ function App() {
     } else if (hourlyResult[0].info === "Thunderstorm") {
       changeBackground(Thunderstorm);
       clearClasses(wrapperBlock);
+      addClass(wrapperBlock, "storm");
     }
     addHourlyInfo(hourlyResult.slice());
 
@@ -461,6 +470,10 @@ function App() {
     if (block.classList.length > 1) {
       block.classList.remove(block.classList[1]);
     }
+  }
+
+  function deleteNightClass(block) {
+    block.classList.contains("night") && block.classList.remove("night");
   }
 
   function chooseCity(event) {

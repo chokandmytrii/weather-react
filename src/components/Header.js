@@ -37,14 +37,14 @@ const cities = [
 const Header = ({ city, changeCity, background }) => {
   return (
     <header className="header">
-      <video
-        src={background}
-        autoPlay
-        muted
-        loop
-        className="header__video video"
-      ></video>{" "}
-      <h1 className="header__title">Europe Weather Forecast</h1>
+      <div className="video-wrapper">
+        <img
+          src={background}
+          alt="background"
+          className="header__video video"
+        ></img>
+      </div>{" "}
+      <h1 className="header__title"> Europe Weather Forecast </h1>{" "}
       <div className="header__city city">
         <p className="city__pointer"> Current city </p>{" "}
         <h2 className="city__name"> {city} </h2>{" "}
